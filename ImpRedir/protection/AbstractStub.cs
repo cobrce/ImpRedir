@@ -66,7 +66,7 @@ namespace ImportRedir.protection
             return aligned;
         }
 
-        public virtual void ImplementRedirection(WindowsAssembly pE, byte[] peData)
+        public virtual void ImplementRedirection(WindowsAssembly pE, byte[] peData,ProtectionOptions options)
         {
             this.dataStream = new MemoryStream();
             int EOF = EndOfFileOffset(pE.SectionHeaders.Last());
@@ -74,19 +74,20 @@ namespace ImportRedir.protection
             WriteSetions(peData, EOF);
             WriteStubSection(pE.NtHeaders.OptionalHeader.FileAlignment);
             WriteEndOfFile(peData, EOF);
-            WriteHeaders(pE);
+            WriteHeaders(pE,options.AddDllLoader);
 
             //File.WriteAllBytes("test.exe", dataStream.ToArray());
         }
 
-        private void WriteHeaders(WindowsAssembly pE)
+        private void WriteHeaders(WindowsAssembly pE,bool moveEP)
         {
-            WriteNtHeaders(pE, WriteSectionHeader(pE));
+            WriteNtHeaders(pE, WriteSectionHeader(pE),moveEP);
         }
 
-        private void WriteNtHeaders(WindowsAssembly pE, ImageSectionHeader section)
+        private void WriteNtHeaders(WindowsAssembly pE, ImageSectionHeader section,bool movEP)
         {
-            pE.NtHeaders.OptionalHeader.AddressOfEntrypoint = section.VirtualAddress + (uint)EPoffset;
+            if (movEP)
+                pE.NtHeaders.OptionalHeader.AddressOfEntrypoint = section.VirtualAddress + (uint)EPoffset;
             pE.NtHeaders.FileHeader.NumberOfSections++;
             pE.NtHeaders.OptionalHeader.SizeOfImage =  GetSizeOfImage(pE);
 

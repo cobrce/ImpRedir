@@ -14,7 +14,7 @@ namespace ImportRedir.Interfaces
         void AddAPIs(WindowsAssembly pE);
         void GenerateRedirectionCode(WindowsAssembly pE);
         int GenerateStub(WindowsAssembly pE, ProtectionOptions options);
-        void ImplementRedirection(WindowsAssembly pE,byte[] peData);
+        void ImplementRedirection(WindowsAssembly pE,byte[] peData,ProtectionOptions options);
         void DestroyImportDirectory(WindowsAssembly pE);
         void GenerateLoaderCode();
     }

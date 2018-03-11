@@ -106,7 +106,6 @@ namespace ImportRedir.protection
        
         #endregion //overrides
 
-
         #region assembly code
         private string DllLoader
         {

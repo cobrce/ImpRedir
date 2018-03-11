@@ -59,7 +59,7 @@ namespace ImportRedir.protection
                 stub.AddAPIs(PE); // copy (encrypted / hash of) imported apis
                 stub.GenerateRedirectionCode(PE); // generate code of every function that handle a redirected API
                 stub.GenerateStub(PE, options); // compile stub
-                stub.ImplementRedirection(PE,bytes); // add a section containing bytes of generated stub, modify IAT to redirect APIs
+                stub.ImplementRedirection(PE,bytes,options); // add a section containing bytes of generated stub, modify IAT to redirect APIs
 
                 //stub.DestroyImportDirectory(PE); // empty the import directory and patch the header
                 //stub.MoveEP(PE);
